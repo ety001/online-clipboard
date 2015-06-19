@@ -44,6 +44,7 @@ body {
 .list {
   height: 100%;
   margin: 20px;
+  margin-bottom: 60px;
 }
 
 nav #btn-submit {

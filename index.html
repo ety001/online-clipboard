@@ -31,35 +31,29 @@
 
   <body>
 
-    <!--<div class="container">
+    <div class="container" id="login_face">
 
-      <form class="form-signin">
+      <div class="form-signin">
         <h2 class="form-signin-heading text-center">Online Clipboard</h2>
         <label for="cb_name" class="sr-only">Clipboard Name</label>
         <input type="text" id="cb_name" class="form-control" placeholder="Clipboard Name" required autofocus>
         <label for="cb_pass" class="sr-only">Clipboard Password</label>
         <input type="password" id="cb_pass" class="form-control" placeholder="Clipboard Password" required>
         <div class="alert alert-danger" id="err"></div>
-        <button class="btn btn-lg btn-primary btn-block">Enter</button>
-      </form>
+        <button class="btn btn-lg btn-primary btn-block" id="login">Enter</button>
+      </div>
 
-    </div> --> <!-- /container -->
+    </div> <!-- /container -->
 
-    <div class="list">
+    <div class="list" style="display:none;">
       <div class="row">
-        <div class="col-sm-12">
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
-          <div class="alert alert-info">测试一下的发生的飞洒发的发生大发是顶顶顶顶顶是事实上是</div>
+        <div class="col-sm-12" id="screen">
         </div>
       </div>
     </div>
 
-    <nav class="navbar navbar-default navbar-fixed-bottom">
-      <form class="form-inline">
+    <nav class="navbar navbar-default navbar-fixed-bottom" style="display:none;">
+      <div class="form-inline">
         <div class="row">
           <div class="col-sm-11">
             <input type="text" class="form-control" id="clip_content" />
@@ -68,7 +62,7 @@
             <button class="form-control btn btn-sm btn-primary btn-block" id="btn-submit">Enter</button>
           </div>
         </div>
-      </form>
+      </div>
     </nav>
 
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
