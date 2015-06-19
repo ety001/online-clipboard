@@ -30,7 +30,7 @@ $ws->on('open', function ($ws, $request) {
     $redis->lPush('publish_'.$hash, $request->fd);
 
     $all    = $redis->lRange($hash, 0, -1);
-    krsort($all);
+    $all    = array_reverse($all);
     $result = array('type'=>'all', 'data'=>$all);
     $ws->push($request->fd, json_encode($result));
 });
