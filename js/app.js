@@ -1,13 +1,14 @@
 var App = {
+    ws_url : 'ws://ety001-clip.daoapp.io/',
     cb_name : null,
     cb_pass : null,
     ws : null,
     has_login : false,
 
-    init : function(cb_name, cb_pass, ws_url){
+    init : function(cb_name, cb_pass){
         App.cb_name    = cb_name;
         App.cb_pass    = cb_pass;
-        App.ws             = new WebSocket(ws_url + cb_name + '/' + cb_pass);
+        App.ws             = new WebSocket(App.ws_url + cb_name + '/' + cb_pass);
         App.ws.onopen      = App.onopen;
         App.ws.onmessage   = App.onmessage;
         App.ws.onclose     = App.onclose;
@@ -84,8 +85,8 @@ $(function(){
             $('#err').html('Please input clipboard name or clipboard password.').show();
             return;
         }
-        var ws_url      = 'ws://192.168.199.124:8080/';
-        App.init(cb_name, cb_pass, ws_url);
+        
+        App.init(cb_name, cb_pass);
         App.has_login   = true;
         $('#login_face').hide();
         $('.list').show();
