@@ -2,6 +2,7 @@ var App = {
     cb_name : null,
     cb_pass : null,
     ws : null,
+    has_login : false,
 
     init : function(cb_name, cb_pass, ws_url){
         App.cb_name    = cb_name;
@@ -43,6 +44,7 @@ var App = {
         $('.list').hide();
         $('nav').hide();
         $('#screen').html('');
+        App.has_login   = false;
     },
     
     onerror : function(evt){
@@ -50,6 +52,7 @@ var App = {
         $('.list').hide();
         $('nav').hide();
         $('#screen').html('');
+        App.has_login   = false;
         console.log('onerror',evt);
     },
 
@@ -67,28 +70,43 @@ var App = {
 
 $(function(){
     var cb_name, cb_pass, ctrl_key=false;
-    $('#login').click(function(){
+
+    if(App.has_login==true){
+        $('#clip_content').focus();
+    } else {
+        $('#cb_name').focus();
+    }
+
+    var login_func  = function(){
         cb_name     = $('#cb_name').val()?$('#cb_name').val():null;
         cb_pass     = $('#cb_pass').val()?$('#cb_pass').val():null;
         if(!cb_name || !cb_pass){
             $('#err').html('Please input clipboard name or clipboard password.').show();
             return;
         }
-        var ws_url      = 'ws://localhost:8080/';
+        var ws_url      = 'ws://192.168.199.124:8080/';
         App.init(cb_name, cb_pass, ws_url);
+        App.has_login   = true;
         $('#login_face').hide();
         $('.list').show();
         $('nav').show();
-    });
+        $('#clip_content').focus();
+    }
+
+    $('#login').click(login_func);
 
     $('#btn-submit').click(App.send);
+    $('#cb_name,#cb_pass').keydown(function(e){
+        if(e.keyCode==13){
+            login_func();
+        }
+    });
     $('#clip_content').keyup(function(e){
         if(e.keyCode==17){
             ctrl_key    = false;
         }
     });
     $('#clip_content').keydown(function(e){
-        console.log(e.keyCode);
         if(e.keyCode==17){
             ctrl_key    = true;
         }
