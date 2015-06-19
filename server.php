@@ -3,6 +3,12 @@ require 'func.php';
 $config = require 'config.php';
 $redis  = new Redis();
 $redis->pconnect($config['redis']['host'], $config['redis']['port']);
+if($config['redis']['pass']){
+    $redis->auth( $config['redis']['pass'] );
+}
+if($config['redis']['db']){
+    $redis->select( $config['redis']['db'] );
+}
 
 $ws = new swoole_websocket_server("0.0.0.0", 8080);
 
