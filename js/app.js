@@ -21,7 +21,6 @@ var App = {
     onmessage : function(evt){
         var d = evt.data;
         var m = JSON.parse(d);
-        console.log(evt, d, m);
         switch(m.type){
             case 'all':
                 if(m.data==true)return;
@@ -35,7 +34,8 @@ var App = {
                 $('#screen').append( $('<pre>' + m.data + '</pre>') );
                 break;
         }
-        $('html, body').animate({scrollTop: $(document).height()}, 'fast'); 
+        $('html, body').animate({scrollTop: $(document).height()}, 'fast');
+        $('#clip_content').val(null);
     },
 
     onclose : function(evt){
@@ -60,13 +60,13 @@ var App = {
 
     send : function(){
         var msg     = $('#clip_content').val();
+        if(msg==='')return;
         App.sendmsg( JSON.stringify( {type: "message",msg: msg} ) );
-        $('#clip_content').val('');
     }
 }
 
 $(function(){
-    var cb_name, cb_pass;
+    var cb_name, cb_pass, ctrl_key=false;
     $('#login').click(function(){
         cb_name     = $('#cb_name').val()?$('#cb_name').val():null;
         cb_pass     = $('#cb_pass').val()?$('#cb_pass').val():null;
@@ -82,8 +82,17 @@ $(function(){
     });
 
     $('#btn-submit').click(App.send);
+    $('#clip_content').keyup(function(e){
+        if(e.keyCode==17){
+            ctrl_key    = false;
+        }
+    });
     $('#clip_content').keydown(function(e){
-        if(e.keyCode==13){
+        console.log(e.keyCode);
+        if(e.keyCode==17){
+            ctrl_key    = true;
+        }
+        if(ctrl_key && e.keyCode==13){
             App.send();
         }
     });
