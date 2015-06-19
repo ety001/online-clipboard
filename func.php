@@ -1,6 +1,7 @@
 <?php
 function save_cb($redis, $hash, $content){
-    if(!$redis || !$hash || !$content)return;
+    if(!$redis || !$hash)return;
+    $content    = htmlspecialchars($content);
     if($hash=='8d3c0804d35128b9546b526245bb9b64'){
         if($redis->lSize($hash)<500){
             $redis->lPush($hash, $content);
@@ -16,10 +17,11 @@ function save_cb($redis, $hash, $content){
             $redis->lPush($hash, $content);
         }
     }
+    $redis->bgsave();
 }
 
 function publish($redis, $hash, $ws, $content){
-    if(!$hash || !$redis || !$ws || !$content)return;
+    if(!$hash || !$redis || !$ws)return;
     $result = $redis->lRange('publish_'.$hash, 0, -1);
     krsort($result);
     foreach ($result as $k => $v) {
@@ -27,4 +29,18 @@ function publish($redis, $hash, $ws, $content){
         $ws->push($v, json_encode($tmp));
         //var_dump('publish', $v, $tmp);
     }
+}
+
+function hash_clear($redis){
+    if(!$redis)return;
+    $allkeys    = $redis->hKeys('fd.to.hash');
+    $all        = $redis->hGetAll('fd.to.hash');
+    foreach ($all as $k => $v) {
+        $redis->lRem('publish_'.$v, $k, 0);
+    }
+
+    foreach ($allkeys as $k => $v) {
+        $redis->hDel('fd.to.hash', $v);
+    }
+    return;
 }
