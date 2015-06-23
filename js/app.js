@@ -71,6 +71,10 @@ var App = {
 
 $(function(){
     var cb_name, cb_pass, ctrl_key=false;
+    
+    if(!window.WebSocket){
+        alert('Sorry, your browser does not support WebSocket.');
+    }
 
     if(App.has_login==true){
         $('#clip_content').focus();
