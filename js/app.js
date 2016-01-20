@@ -1,5 +1,5 @@
 var App = {
-    ws_url : 'ws://ety001-clip.daoapp.io/',
+    ws_url : 'ws://oc-server.to0l.cn:8080/',
     cb_name : null,
     cb_pass : null,
     ws : null,
