@@ -1,14 +1,18 @@
+#!/usr/bin/php
 <?php
 require 'func.php';
 $config = require 'config.php';
 $redis  = new Redis();
 $redis->pconnect($config['redis']['host'], $config['redis']['port']);
+print "Connection to server sucessfully\n";
+print "Server is running: " . $redis->ping()."\n";
 if($config['redis']['pass']){
     $redis->auth( $config['redis']['pass'] );
 }
-if($config['redis']['db']){
-    $redis->select( $config['redis']['db'] );
-}
+var_dump($config['redis']);
+//if($config['redis']['db']){
+//    $redis->select( $config['redis']['db'] );
+//}
 
 $ws = new swoole_websocket_server("0.0.0.0", 8080);
 
@@ -52,6 +56,7 @@ $ws->on('message', function ($ws, $frame) {
         case 'message':
             save_cb($redis, $hash, $msg);
             publish($redis, $hash, $ws, $msg);
+            var_dump($hash, $msg);
             break;
         default:
             # code...
