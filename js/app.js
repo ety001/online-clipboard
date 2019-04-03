@@ -1,5 +1,5 @@
 var App = {
-    ws_url : 'ws://oc-server.to0l.cn:8080/',
+    ws_url : 'wss://oc-server.to0l.cn/',
     cb_name : null,
     cb_pass : null,
     ws : null,
