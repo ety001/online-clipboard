@@ -55,7 +55,7 @@
                     solo
                     v-model="inputMsg"
                     @keyup.ctrl.enter="send"
-                    placeholder="输入内容, 按 Ctrl + Enter 或者 Command + Return 发送, 最多支持50条记录. 拖动文件到这里传送, 最大支持30MB, 保存时间6小时."
+                    placeholder="输入内容, 按 Ctrl + Enter 或者 Command + Return 发送, 最多支持50条记录."
                     autofocus
                     no-resize
                   ></v-textarea>
