@@ -1,28 +1,163 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <v-content>
+      <v-container @keyup.enter="login" grid-list-xs text-xs-center fill-height v-if="hasLogin === false">
+        <v-layout row wrap>
+          <v-flex xs12 class="mt-5">
+            <div class="title">网络剪切板</div>
+          </v-flex>
+          <v-flex xs12 md4 sm4 offset-sm4 offset-md4 class="mt-2">
+            <v-text-field
+              autofocus
+              label="剪切板名字"
+              v-model="cbName"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md4 sm4 offset-sm4 offset-md4>
+            <v-text-field
+              label="剪切板密码"
+              type="password"
+              v-model="cbPass"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs6 offset-xs3 md2 sm2 offset-sm5 offset-md5>
+            <v-btn
+              block
+              color="info"
+              @click="login"
+              :disabled="loginBtnDisable"
+            >登录</v-btn>
+          </v-flex>
+          <v-flex xs6 offset-xs3 md2 offset-md5 class="mt-2" v-if="isLogining === true">
+            <v-progress-circular
+              :size="20"
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
+          </v-flex>
+          <v-flex xs12 class="caption mt-5">
+            @ <a href="https://blog.domyself.me" target="_block">ety001</a>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-container grid-list-xs fill-height v-if="hasLogin === true">
+        <v-layout row wrap>
+          <v-flex xs12>
+            <div class="board pa-3">
+              <div class="line mt-3" v-for="(m,i) in msg" v-bind:key="i">
+                <code>{{ m }}</code>
+              </div>
+            </div>
+            <div class="input-box mt-4">
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <v-textarea
+                    solo
+                    v-model="inputMsg"
+                    @keyup.ctrl.enter="send"
+                    placeholder="输入内容, 按 Ctrl + Enter 或者 Command + Return 发送, 最多支持50条记录. 拖动文件到这里传送, 最大支持30MB, 保存时间6小时."
+                    autofocus
+                    no-resize
+                  ></v-textarea>
+                </v-flex>
+                <v-flex xs12>
+                  <v-btn block color="info" @click="send">
+                    发送
+                  </v-btn>
+                </v-flex>
+              </v-layout>
+            </div>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
-  }
+  },
+  data () {
+    return {
+      hasLogin: false,
+      loginBtnDisable: false,
+      wsUrl : 'wss://oc-server.to0l.cn',
+      cbName: null, // clipboard name
+      cbPass: null, // clipboard pass
+      ws: null,
+      msg: [],
+      inputMsg: null,
+      isLogining: false,
+      interval: null,
+    }
+  },
+  methods: {
+    login() {
+      if (this.cbName === null || this.cbPass === null) return;
+      this.ws = new window.WebSocket(`${this.wsUrl}/${this.cbName}/${this.cbPass}`);
+      this.ws.onopen = this.onopen;
+      this.ws.onmessage = this.onmessage;
+      this.ws.onclose = this.onclose;
+      this.ws.onerror = this.onerror;
+      this.isLogining = true;
+      this.loginBtnDisable = true;
+    },
+    onopen() {
+      this.msg = [];
+      this.isLogining = false;
+      this.hasLogin = true;
+      this.loginBtnDisable = false;
+      this.interval = setInterval(() => {
+        this.ws.send(JSON.stringify({type:'ping',msg:'ping'}));
+      }, 10000);
+    },
+    onmessage(evt) {
+      const m = JSON.parse(evt.data);
+      switch(m.type) {
+        case 'all':
+          if(m.data === true)return;
+          this.msg = m.data;
+          break;
+        case 'single':
+          this.msg.push(m.data);
+          break;
+      }
+    },
+    onclose(evt) {
+      this.hasLogin = false;
+      this.msg = [];
+      clearInterval(this.interval);
+      this.interval = null;
+      // eslint-disable-next-line
+      console.log('onclose', evt);
+    },
+    onerror(evt) {
+      this.hasLogin = false;
+      this.msg = [];
+      clearInterval(this.interval);
+      this.interval = null;
+      // eslint-disable-next-line
+      console.log('onclose', evt);
+    },
+    send() {
+      if(this.inputMsg) {
+        this.ws.send( JSON.stringify( {type: "message",msg: this.inputMsg} ) );
+        this.inputMsg = null;
+      }
+    },
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .board {
+    background-color: #fff;
+    overflow-y: hidden;
+    overflow-x: scroll;
+  }
+  .input-box {
+  }
 </style>
+
