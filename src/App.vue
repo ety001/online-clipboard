@@ -5,6 +5,7 @@
         <v-layout row wrap>
           <v-flex xs12 class="mt-5">
             <div class="title">网络剪切板</div>
+            <div class="sub-title">多终端同步文字信息, 最多50条</div>
           </v-flex>
           <v-flex xs12 md4 sm4 offset-sm4 offset-md4 class="mt-2">
             <v-text-field
@@ -36,7 +37,8 @@
             ></v-progress-circular>
           </v-flex>
           <v-flex xs12 class="caption mt-5">
-            @ <a href="https://blog.domyself.me" target="_block">ety001</a>
+            @ <a href="https://blog.domyself.me" target="_block">ety001</a> | 
+            <a href="https://github.com/ety001/online-clipboard" target="_block">源码</a>
           </v-flex>
         </v-layout>
       </v-container>
@@ -45,7 +47,7 @@
           <v-flex xs12>
             <div class="board pa-3">
               <div class="line mt-3" v-for="(m,i) in msg" v-bind:key="i">
-                <code>{{ m }}</code>
+                <code v-html="m"></code>
               </div>
             </div>
             <div class="input-box mt-4">
@@ -157,7 +159,9 @@ export default {
     overflow-y: hidden;
     overflow-x: scroll;
   }
-  .input-box {
+  .sub-title {
+    margin-top: 20px;
+    color: #666;
   }
 </style>
 
