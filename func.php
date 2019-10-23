@@ -2,13 +2,12 @@
 function save_cb($redis, $hash, $content){
     if(!$redis || !$hash)return;
     $content    = htmlspecialchars($content);
-    if($hash=='8d3c0804d35128b9546b526245bb9b64'){
-        if($redis->lSize($hash)<500){
-            $redis->lPush($hash, $content);
-        } else {
-            $redis->rPop($hash);
-            $redis->lPush($hash, $content);
-        }
+    $exceptCb = [
+        '2f74811300c361e53b430611a7d1769f',
+        '8d3c0804d35128b9546b526245bb9b64',
+    ];
+    if(in_array($hash, $exceptCb)){
+        $redis->lPush($hash, $content);
     } else {
         if($redis->lSize($hash)<50){
             $redis->lPush($hash, $content);
