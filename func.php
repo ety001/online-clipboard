@@ -3,7 +3,7 @@ function save_cb($redis, $hash, $content){
     if(!$redis || !$hash)return;
     $content    = htmlspecialchars($content);
     $exceptCb = [
-        '2f74811300c361e53b430611a7d1769f',
+        '2f74811300c361e53b430611a7d1769f', // publicpublic
         '8d3c0804d35128b9546b526245bb9b64',
     ];
     if(in_array($hash, $exceptCb)){
