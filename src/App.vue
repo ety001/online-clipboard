@@ -6,6 +6,7 @@
           <v-flex xs12 class="mt-5">
             <div class="title">网络剪切板</div>
             <div class="sub-title">多终端同步文字信息, 最多50条</div>
+            <div class="sub-title">输入剪切板名称: public，密码: public，可以进行留言</div>
           </v-flex>
           <v-flex xs12 md4 sm4 offset-sm4 offset-md4 class="mt-2">
             <v-text-field
