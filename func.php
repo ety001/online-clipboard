@@ -21,7 +21,9 @@ function save_cb($redis, $hash, $content){
 
 function publish($redis, $hash, $ws, $content, $raw = false){
     if(!$hash || !$redis || !$ws)return;
-    $content    = htmlspecialchars($content);
+    if ($raw == false) {
+        $content    = htmlspecialchars($content);
+    }
     $result = $redis->lRange('publish_'.$hash, 0, -1);
     krsort($result);
     foreach ($result as $k => $v) {
