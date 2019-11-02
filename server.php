@@ -59,7 +59,7 @@ $ws->on('message', function ($ws, $frame) {
             var_dump($hash, $msg);
             break;
         default:
-            # code...
+            var_dump('unknown type: '.$frame->data);
             break;
     }
 });
