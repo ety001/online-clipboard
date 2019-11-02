@@ -19,15 +19,18 @@ function save_cb($redis, $hash, $content){
     $redis->bgsave();
 }
 
-function publish($redis, $hash, $ws, $content){
+function publish($redis, $hash, $ws, $content, $raw = false){
     if(!$hash || !$redis || !$ws)return;
     $content    = htmlspecialchars($content);
     $result = $redis->lRange('publish_'.$hash, 0, -1);
     krsort($result);
     foreach ($result as $k => $v) {
-        $tmp    = array('type'=>'single', 'data'=>$content);
-        $ws->push($v, json_encode($tmp));
-        //var_dump('publish', $v, $tmp);
+        if ($raw == true) {
+            $ws->push($v, json_encode($content));
+        } else {
+            $tmp    = array('type'=>'single', 'data'=>$content);
+            $ws->push($v, json_encode($tmp));
+        }
     }
 }
 
