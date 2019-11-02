@@ -58,6 +58,10 @@ $ws->on('message', function ($ws, $frame) {
             publish($redis, $hash, $ws, $msg);
             var_dump($hash, $msg);
             break;
+        case 'ping':
+            publish($redis, $hash, $ws, json_encode([
+                'type' => 'pong', 'msg' => 'pone',
+            ]));
         default:
             var_dump('unknown type: '.$frame->data);
             break;
