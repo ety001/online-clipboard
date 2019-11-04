@@ -43,6 +43,10 @@ $ws->on('open', function ($ws, $request) {
         $all    = $redis->lRange($hash, 0, -1);
         $all    = array_reverse($all);
         $result = array('type'=>'all', 'data'=>$all);
+        if (!$ws->isEstablished($request->fd)) {
+            var_dump('fd unset');
+            return;
+        }
         $ws->push($request->fd, json_encode($result));
     } catch(\Exception $e) {
         var_dump('Error:'.$e->getMessage());

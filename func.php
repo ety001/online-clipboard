@@ -28,10 +28,14 @@ function publish($redis, $hash, $ws, $content, $raw = false){
     krsort($result);
     foreach ($result as $k => $v) {
         try {
+            if (!$ws->isEstablished($v)) {
+                var_dump('cannot find client: '.$v);
+                continue;
+            }
             if ($raw == true) {
                 $ws->push($v, json_encode($content));
             } else {
-                $tmp    = array('type'=>'single', 'data'=>$content);
+                $tmp = array('type'=>'single', 'data'=>$content);
                 $ws->push($v, json_encode($tmp));
             }
         } catch (\Exception $e) {
