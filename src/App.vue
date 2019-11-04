@@ -51,7 +51,7 @@
       <v-container grid-list-xs fill-height v-if="hasLogin === true" class="clip-page">
         <v-layout row class="">
           <v-flex xs12>
-            <div class="board pa-3">
+            <div id="board" class="board pa-3" v-chat-scroll="{always: false, smooth: true}">
               <div class="mt-3" v-for="(m,i) in msg" v-bind:key="i">
                 <code class="code" v-html="m"></code>
               </div>
