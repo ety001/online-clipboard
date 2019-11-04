@@ -48,15 +48,15 @@
           </v-flex>
         </v-layout>
       </v-container>
-      <v-container grid-list-xs fill-height v-if="hasLogin === true">
-        <v-layout row wrap>
+      <v-container grid-list-xs fill-height v-if="hasLogin === true" class="clip-page">
+        <v-layout row class="">
           <v-flex xs12>
             <div class="board pa-3">
-              <div class="line mt-3" v-for="(m,i) in msg" v-bind:key="i">
-                <code v-html="m"></code>
+              <div class="mt-3" v-for="(m,i) in msg" v-bind:key="i">
+                <code class="code" v-html="m"></code>
               </div>
             </div>
-            <div class="input-box mt-4">
+            <div class="mt-4">
               <v-layout row wrap>
                 <v-flex xs12>
                   <v-textarea
@@ -160,10 +160,20 @@ export default {
 </script>
 
 <style>
+  .clip-page {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+  }
+  .clip-box {
+    overflow: hidden;
+  }
   .board {
     background-color: #fff;
-    overflow-y: hidden;
-    overflow-x: scroll;
+    overflow: scroll;
+    height: calc(100% - 210px);
   }
   .sub-title {
     margin-top: 20px;
