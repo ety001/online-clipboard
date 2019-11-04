@@ -27,12 +27,17 @@ function publish($redis, $hash, $ws, $content, $raw = false){
     $result = $redis->lRange('publish_'.$hash, 0, -1);
     krsort($result);
     foreach ($result as $k => $v) {
-        if ($raw == true) {
-            $ws->push($v, json_encode($content));
-        } else {
-            $tmp    = array('type'=>'single', 'data'=>$content);
-            $ws->push($v, json_encode($tmp));
+        try {
+            if ($raw == true) {
+                $ws->push($v, json_encode($content));
+            } else {
+                $tmp    = array('type'=>'single', 'data'=>$content);
+                $ws->push($v, json_encode($tmp));
+            }
+        } catch (\Exception $e) {
+            var_dump('lost client: '.$v, $e->getMessage());
         }
+        
     }
 }
 

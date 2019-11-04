@@ -81,12 +81,16 @@ $ws->on('message', function ($ws, $frame) {
 
 $ws->on('close', function ($ws, $fd) {
     global $redis;
-    $hash   = $redis->hGet('fd.to.hash', $fd);
-    //remove $hash=>$fd
-    $redis->lRem('publish_'.$hash, $fd, 0);
-    //remove $fd=>$hash
-    $redis->hDel('fd.to.hash', $fd);
-    echo "client-{$fd} is closed\n";
+    try {
+        $hash   = $redis->hGet('fd.to.hash', $fd);
+        //remove $hash=>$fd
+        $redis->lRem('publish_'.$hash, $fd, 0);
+        //remove $fd=>$hash
+        $redis->hDel('fd.to.hash', $fd);
+        echo "client-{$fd} is closed\n";
+    } catch (\Exception $e) {
+        var_dump('Error:'.$e->getMessage());
+    }
 });
 
 $ws->start();
