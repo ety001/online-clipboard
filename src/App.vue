@@ -53,7 +53,11 @@
           <v-flex xs12>
             <div id="board" class="board pa-3" v-chat-scroll="{always: false, smooth: true}">
               <div class="mt-3" v-for="(m,i) in msg" v-bind:key="i">
-                <code class="code" v-html="m"></code>
+                <code
+                  class="code"
+                  v-html="m"
+                  @click="doCopy(m)"
+                ></code>
               </div>
             </div>
             <div class="mt-4">
@@ -79,10 +83,31 @@
         </v-layout>
       </v-container>
     </v-content>
+    <v-snackbar
+      v-model="snackbarSuccess"
+      :top="true"
+      :vertical="false"
+      :multi-line="false"
+      :color="'success'"
+      :timeout="2000"
+    >
+      复制成功
+    </v-snackbar>
+    <v-snackbar
+      v-model="snackbarFail"
+      :top="true"
+      :vertical="false"
+      :multi-line="false"
+      :color="'danger'"
+      :timeout="2000"
+    >
+      复制失败
+    </v-snackbar>
   </v-app>
 </template>
 
 <script>
+const decode = require('unescape');
 export default {
   name: 'App',
   components: {
@@ -99,6 +124,9 @@ export default {
       inputMsg: null,
       isLogining: false,
       interval: null,
+      thingsToCopy: null,
+      snackbarSuccess: false,
+      snackbarFail: false,
     }
   },
   methods: {
@@ -154,6 +182,13 @@ export default {
         this.ws.send( JSON.stringify( {type: "message",msg: this.inputMsg} ) );
         this.inputMsg = null;
       }
+    },
+    doCopy(m) {
+      this.$copyText(decode(m)).then((e) => {
+        this.snackbarSuccess = true;
+      }, (e) => {
+        this.snackbarFail = true;
+      });
     },
   },
 }
