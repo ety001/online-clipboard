@@ -7,6 +7,11 @@
             <div class="title">网络剪切板</div>
             <div class="sub-title">多终端同步文字信息, 最多50条</div>
             <div class="sub-title">输入剪切板名称: public，密码: public，可以进行留言</div>
+            <div class="sub-title">可以进行留言</div>
+            <div class="sub-title">
+              <a href="https://fir.im/yhu7" target="_blank">Android客户端</a>&nbsp;&nbsp;
+              <a href="https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770" target="_blank">iOS客户端</a>
+            </div>
           </v-flex>
           <v-flex xs12 md4 sm4 offset-sm4 offset-md4 class="mt-2">
             <v-text-field
