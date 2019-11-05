@@ -100,7 +100,6 @@ $ws->on('close', function ($ws, $fd) {
 $ws->on('request', function($request, $response) {
     global $redis;
     $pathInfo = $request->server['path_info'];
-    var_dump($pathInfo);
     $path = explode('/', $pathInfo);
     $response->header('Content-Type', 'text/plain; charset=utf-8');
     if (count($path) == 3) {
