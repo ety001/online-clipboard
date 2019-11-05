@@ -30,7 +30,7 @@ $ws->on('open', function ($ws, $request) {
             hash_clear($redis);
         }
 
-        var_dump($hash,$request->fd);
+        var_dump('open: '.$hash.', fd: '.$request->fd);
 
         //save $fd => $hash
 
@@ -66,7 +66,7 @@ $ws->on('message', function ($ws, $frame) {
             case 'message':
                 save_cb($redis, $hash, $msg);
                 publish($redis, $hash, $ws, $msg);
-                var_dump($hash, $msg);
+                var_dump("receive msg on '{$hash}' with '{$msg}'");
                 break;
             case 'ping':
                 publish($redis, $hash, $ws, [
@@ -94,6 +94,26 @@ $ws->on('close', function ($ws, $fd) {
         echo "client-{$fd} is closed\n";
     } catch (\Exception $e) {
         var_dump('Error:'.$e->getMessage());
+    }
+});
+
+$ws->on('request', function($request, $response) {
+    global $redis;
+    $pathInfo = $request->server['path_info'];
+    $path = explode('/', $pathInfo);
+    $response->header('Content-Type', 'text/plain; charset=utf-8');
+    if (count($path) == 3) {
+        $cb_name = $path[1];
+        $cb_pass = $path[2];
+        $hash = md5($cb_pass. $cb_name);
+        $messages = $redis->lRange($hash, 0, 1);
+        $str = '';
+        foreach($messages as $k => $m) {
+            $str .= "{$m}\n\n";
+        }
+        $response->end($str);
+    } else {
+        $response->end('');
     }
 });
 

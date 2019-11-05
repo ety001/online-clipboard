@@ -22,7 +22,7 @@ function save_cb($redis, $hash, $content){
 function publish($redis, $hash, $ws, $content, $raw = false){
     if(!$hash || !$redis || !$ws)return;
     if ($raw == false) {
-        $content    = htmlspecialchars($content);
+        $content = htmlspecialchars($content);
     }
     $result = $redis->lRange('publish_'.$hash, 0, -1);
     krsort($result);
