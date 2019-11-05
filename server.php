@@ -99,22 +99,36 @@ $ws->on('close', function ($ws, $fd) {
 
 $ws->on('request', function($request, $response) {
     global $redis;
-    $pathInfo = $request->server['path_info'];
+    $server = $request->server;
+    $pathInfo = $server['path_info'];
     $path = explode('/', $pathInfo);
+    $cb_name = $path[1];
+    $cb_pass = $path[2];
+    $hash = md5($cb_pass. $cb_name);
     $response->header('Content-Type', 'text/plain; charset=utf-8');
-    if (count($path) == 3) {
-        $cb_name = $path[1];
-        $cb_pass = $path[2];
-        $hash = md5($cb_pass. $cb_name);
-        $messages = $redis->lRange($hash, 0, 0);
-        $str = '';
-        foreach($messages as $k => $m) {
-            $m = htmlspecialchars_decode($m);
-            $str .= "{$m}\n\n";
-        }
-        $response->end($str);
-    } else {
-        $response->end('');
+
+    switch($server['request_method']) {
+        case 'POST':
+            $postData = $request->post;
+            $content = $postData['content'];
+            save_cb($redis, $hash, $msg);
+            publish($redis, $hash, $ws, $msg);
+            var_dump('content from cli');
+            break;
+        case 'GET':
+            if (count($path) == 3) {
+                $messages = $redis->lRange($hash, 0, 0);
+                $str = '';
+                foreach($messages as $k => $m) {
+                    $m = htmlspecialchars_decode($m);
+                    $str .= "{$m}\n\n";
+                }
+                $response->end($str);
+            } else {
+                $response->end('');
+            }
+            break;
+        default:
     }
 });
 
