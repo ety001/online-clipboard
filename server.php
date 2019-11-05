@@ -100,6 +100,7 @@ $ws->on('close', function ($ws, $fd) {
 $ws->on('request', function($request, $response) {
     global $redis;
     $pathInfo = $request->server['path_info'];
+    var_dump($pathInfo);
     $path = explode('/', $pathInfo);
     $response->header('Content-Type', 'text/plain; charset=utf-8');
     if (count($path) == 3) {
@@ -109,6 +110,7 @@ $ws->on('request', function($request, $response) {
         $messages = $redis->lRange($hash, 0, 1);
         $str = '';
         foreach($messages as $k => $m) {
+            $m = htmlspecialchars_decode($m);
             $str .= "{$m}\n\n";
         }
         $response->end($str);
