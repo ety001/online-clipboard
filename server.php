@@ -107,7 +107,7 @@ $ws->on('request', function($request, $response) {
         $cb_name = $path[1];
         $cb_pass = $path[2];
         $hash = md5($cb_pass. $cb_name);
-        $messages = $redis->lRange($hash, 0, 1);
+        $messages = $redis->lRange($hash, 0, 0);
         $str = '';
         foreach($messages as $k => $m) {
             $m = htmlspecialchars_decode($m);
