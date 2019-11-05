@@ -4,11 +4,25 @@
 
 我已经搭建了可以使用的公共服务
 
-网页版: [https://oc.to0l.cn](https://oc.to0l.cn)
+### 网页版
+[https://oc.to0l.cn](https://oc.to0l.cn)
 
-Android App: [https://fir.im/yhu7](https://fir.im/yhu7)
+### Android App
+[https://fir.im/yhu7](https://fir.im/yhu7)
 
-iOS App: [https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770)
+### iOS App
+[https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770) 
+
+### cli端
+```
+# Cli端使用说明
+# 接口地址: https://oc-server.to0l.cn/[clipname]/[password]
+# 发送示例（剪切板名和密码都是 public）
+curl "https://oc-server.to0l.cn/public/public" -d "content=this is a test message"
+# 接收示例（剪切板名和密码都是 public）
+curl "https://oc-server.to0l.cn/public/public
+```
+> 注意 cli 端只支持 https，发送的时候的变量名是 content
 
 
 ## 部署
