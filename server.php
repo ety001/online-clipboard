@@ -98,7 +98,7 @@ $ws->on('close', function ($ws, $fd) {
 });
 
 $ws->on('request', function($request, $response) {
-    global $redis;
+    global $redis, $ws;
     $server = $request->server;
     $pathInfo = $server['path_info'];
     $path = explode('/', $pathInfo);
@@ -111,8 +111,8 @@ $ws->on('request', function($request, $response) {
         case 'POST':
             $postData = $request->post;
             $content = $postData['content'];
-            save_cb($redis, $hash, $msg);
-            publish($redis, $hash, $ws, $msg);
+            save_cb($redis, $hash, $content);
+            publish($redis, $hash, $ws, $content);
             var_dump('content from cli');
             break;
         case 'GET':
