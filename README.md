@@ -21,7 +21,7 @@
 curl https://oc-server.to0l.cn/public/public -d "content=this is a test message"
 curl https://oc-server.to0l.cn/public/public -d "content=$(cat /etc/v2ray/config.json)"
 # 接收示例（剪切板名和密码都是 public）
-curl "https://oc-server.to0l.cn/public/public
+curl https://oc-server.to0l.cn/public/public
 ```
 > 注意 cli 端只支持 https，发送的时候的变量名是 content
 
