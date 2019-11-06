@@ -99,36 +99,40 @@ $ws->on('close', function ($ws, $fd) {
 
 $ws->on('request', function($request, $response) {
     global $redis, $ws;
-    $server = $request->server;
-    $pathInfo = $server['path_info'];
-    $path = explode('/', $pathInfo);
-    $cb_name = $path[1];
-    $cb_pass = $path[2];
-    $hash = md5($cb_pass. $cb_name);
-    $response->header('Content-Type', 'text/plain; charset=utf-8');
+    try {
+        $server = $request->server;
+        $pathInfo = $server['path_info'];
+        $path = explode('/', $pathInfo);
+        $cb_name = $path[1];
+        $cb_pass = $path[2];
+        $hash = md5($cb_pass. $cb_name);
+        $response->header('Content-Type', 'text/plain; charset=utf-8');
 
-    switch($server['request_method']) {
-        case 'POST':
-            $postData = $request->post;
-            $content = $postData['content'];
-            save_cb($redis, $hash, $content);
-            publish($redis, $hash, $ws, $content);
-            var_dump('content from cli');
-            break;
-        case 'GET':
-            if (count($path) == 3) {
-                $messages = $redis->lRange($hash, 0, 0);
-                $str = '';
-                foreach($messages as $k => $m) {
-                    $m = htmlspecialchars_decode($m);
-                    $str .= "{$m}\n\n";
+        switch($server['request_method']) {
+            case 'POST':
+                $postData = $request->post;
+                $content = $postData['content'];
+                save_cb($redis, $hash, $content);
+                publish($redis, $hash, $ws, $content);
+                var_dump('content from cli');
+                break;
+            case 'GET':
+                if (count($path) == 3) {
+                    $messages = $redis->lRange($hash, 0, 0);
+                    $str = '';
+                    foreach($messages as $k => $m) {
+                        $m = htmlspecialchars_decode($m);
+                        $str .= "{$m}\n\n";
+                    }
+                    $response->end($str);
+                } else {
+                    $response->end('');
                 }
-                $response->end($str);
-            } else {
-                $response->end('');
-            }
-            break;
-        default:
+                break;
+            default:
+        }
+    } catch (\Exception $e) {
+        var_dump('Error:'.$e->getMessage());
     }
 });
 
