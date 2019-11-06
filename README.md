@@ -18,7 +18,8 @@
 # Cli端使用说明
 # 接口地址: https://oc-server.to0l.cn/[clipname]/[password]
 # 发送示例（剪切板名和密码都是 public）
-curl "https://oc-server.to0l.cn/public/public" -d "content=this is a test message"
+curl https://oc-server.to0l.cn/public/public -d "content=this is a test message"
+curl https://oc-server.to0l.cn/public/public -d "content=$(cat /etc/v2ray/config.json)"
 # 接收示例（剪切板名和密码都是 public）
 curl "https://oc-server.to0l.cn/public/public
 ```
