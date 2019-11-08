@@ -35,13 +35,21 @@ $ws->on('open', function ($ws, $request) {
         //save $fd => $hash
 
         if($redis->hGet('fd.to.hash', $request->fd)!=$hash){
+            // login success
             $redis->hSet('fd.to.hash', $request->fd, $hash);
         }
-        //save $hash => $fd, this list be used to publish msg on the channel. 
+        //save $hash => $fd
+        // this list saves all client ids
+        // which have connected current clipboard. 
         $redis->lPush('publish_'.$hash, $request->fd);
 
+        // get messages from clipboard
         $all    = $redis->lRange($hash, 0, -1);
-        $all    = array_reverse($all);
+        if (!$all) {
+            $all = [];
+        } else {
+            $all = array_reverse($all);
+        }
         $result = array('type'=>'all', 'data'=>$all);
         if (!$ws->isEstablished($request->fd)) {
             var_dump('fd unset');
@@ -58,6 +66,10 @@ $ws->on('message', function ($ws, $frame) {
     global $redis;
     try {
         $hash       = $redis->hGet('fd.to.hash', $frame->fd);
+        if (!$hash) {
+            var_dump('cannot find hash by fd');
+            return;
+        }
         $r          = json_decode($frame->data, true);
         if(empty($r))return;
         $msg        = $r['msg'];
@@ -87,9 +99,11 @@ $ws->on('close', function ($ws, $fd) {
     global $redis;
     try {
         $hash   = $redis->hGet('fd.to.hash', $fd);
-        //remove $hash=>$fd
+        // remove $hash=>$fd
+        // remove the client from the push channel.
         $redis->lRem('publish_'.$hash, $fd, 0);
-        //remove $fd=>$hash
+        // remove $fd=>$hash
+        // remove login info
         $redis->hDel('fd.to.hash', $fd);
         echo "client-{$fd} is closed\n";
     } catch (\Exception $e) {

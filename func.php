@@ -24,11 +24,17 @@ function publish($redis, $hash, $ws, $content, $raw = false){
         $content = htmlspecialchars($content);
     }
     $result = $redis->lRange('publish_'.$hash, 0, -1);
-    krsort($result);
+    if ($result) {
+        krsort($result);
+    } else {
+        $result = [];
+    }
     foreach ($result as $k => $v) {
         try {
             if (!$ws->isEstablished($v)) {
                 var_dump('cannot find client: '.$v);
+                // remove client from the push channel.
+                $redis->lRem('publish_'.$hash, $v, 0);
                 continue;
             }
             if ($raw == true) {
@@ -48,10 +54,13 @@ function hash_clear($redis){
     if(!$redis)return;
     $allkeys    = $redis->hKeys('fd.to.hash');
     $all        = $redis->hGetAll('fd.to.hash');
-    foreach ($all as $k => $v) {
-        $redis->lRem('publish_'.$v, $k, 0);
+
+    // remove all login client from push channel
+    foreach ($all as $fd => $hash) {
+        $redis->lRem('publish_'.$hash, $fd, 0);
     }
 
+    // remove all login info
     foreach ($allkeys as $k => $v) {
         $redis->hDel('fd.to.hash', $v);
     }
