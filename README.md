@@ -31,7 +31,7 @@ curl https://oc-server.to0l.cn/public/public
 #获取服务端代码
 git clone https://github.com/ety001/online-clipboard.git
 
-#服务端代码封装成docker容器
+#服务端代码封装成docker镜像
 cd online-clipboard
 docker build -t ety001/online_clipboard .
 
