@@ -131,6 +131,15 @@ export default {
       snackbarFail: false,
     }
   },
+  created(){
+    if(document.location.hash !== "" || document.location.hash !== "#/"){
+      var arr = document.location.hash.split("/");
+      this.cbName = arr[1];
+      this.cbPass = arr[2];
+      if(this.cbName !== undefined && this.cbPass !== undefined)
+        this.login();
+    }
+  },
   methods: {
     login() {
       if (this.cbName === null || this.cbPass === null) return;
@@ -141,6 +150,7 @@ export default {
       this.ws.onerror = this.onerror;
       this.isLogining = true;
       this.loginBtnDisable = true;
+	  document.location.hash = "/" + this.cbName + "/" + this.cbPass;
     },
     onopen() {
       this.msg = [];
