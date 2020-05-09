@@ -136,8 +136,9 @@ export default {
       var arr = document.location.hash.split("/");
       this.cbName = arr[1];
       this.cbPass = arr[2];
-      if(this.cbName !== undefined && this.cbPass !== undefined)
-        this.login();
+      if(this.cbName !== undefined && this.cbPass !== undefined) {
+      	this.login();
+      }
     }
   },
   methods: {
@@ -150,7 +151,7 @@ export default {
       this.ws.onerror = this.onerror;
       this.isLogining = true;
       this.loginBtnDisable = true;
-	  document.location.hash = "/" + this.cbName + "/" + this.cbPass;
+      document.location.hash = "/" + this.cbName + "/" + this.cbPass;
     },
     onopen() {
       this.msg = [];
