@@ -9,7 +9,7 @@
             <div class="sub-title">输入剪切板名称: public，密码: public，可以进行留言</div>
             <div class="sub-title">可以进行留言</div>
             <div class="sub-title">
-              <a href="https://fir.im/yhu7" target="_blank">Android客户端</a>&nbsp;&nbsp;
+              <a href="http://fir.akawa.ink/onlinecb" target="_blank">Android客户端</a>&nbsp;&nbsp;
               <a href="https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770" target="_blank">iOS客户端</a>&nbsp;&nbsp;
               <a href="https://github.com/ety001/online-clipboard/blob/master/README.md#cli%E7%AB%AF" target="_blank">Cli端</a>&nbsp;&nbsp;
             </div>
