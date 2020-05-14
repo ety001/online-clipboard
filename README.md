@@ -8,7 +8,7 @@
 [https://oc.to0l.cn](https://oc.to0l.cn)
 
 ### Android App
-[https://fir.im/yhu7](https://fir.im/yhu7)
+[http://fir.akawa.ink/onlinecb](http://fir.akawa.ink/onlinecb)
 
 ### iOS App
 [https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770) 
