@@ -44,8 +44,8 @@
             ></v-progress-circular>
           </v-flex>
           <v-flex xs12 class="caption mt-5">
-            <a href="https://blog.domyself.me" target="_block">我的博客</a> | 
-            <a href="http://blog.domyself.me/donate/" target="_block">捐助</a> |
+            <a href="https://akawa.ink" target="_block">我的博客</a> | 
+            <a href="https://akawa.ink/donate/" target="_block">捐助</a> |
             <a href="https://github.com/ety001/online-clipboard" target="_block">源码</a>
           </v-flex>
         </v-layout>
@@ -110,6 +110,8 @@
 
 <script>
 const decode = require('unescape');
+const hostname = window.location.host;
+const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 export default {
   name: 'App',
   components: {
@@ -118,7 +120,7 @@ export default {
     return {
       hasLogin: false,
       loginBtnDisable: false,
-      wsUrl : 'wss://oc-server.to0l.cn',
+      wsUrl : `${protocol}://${hostname}/ws`,
       cbName: null, // clipboard name
       cbPass: null, // clipboard pass
       ws: null,
