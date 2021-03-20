@@ -14,7 +14,10 @@ var_dump($config['redis']);
 //    $redis->select( $config['redis']['db'] );
 //}
 
-$ws = new swoole_websocket_server("0.0.0.0", 8080);
+$host = "0.0.0.0";
+$ws_port = 8080;
+
+$ws = new swoole_websocket_server($host, $ws_port);
 
 $ws->on('open', function ($ws, $request) {
     global $redis;
@@ -40,7 +43,7 @@ $ws->on('open', function ($ws, $request) {
         }
         //save $hash => $fd
         // this list saves all client ids
-        // which have connected current clipboard. 
+        // which have connected current clipboard.
         $redis->lPush('publish_'.$hash, $request->fd);
 
         // get messages from clipboard
@@ -59,7 +62,7 @@ $ws->on('open', function ($ws, $request) {
     } catch(\Exception $e) {
         var_dump('Error:'.$e->getMessage());
     }
-    
+
 });
 
 $ws->on('message', function ($ws, $frame) {
@@ -92,7 +95,7 @@ $ws->on('message', function ($ws, $frame) {
     } catch (\Exception $e) {
         var_dump('Error:'.$e->getMessage());
     }
-    
+
 });
 
 $ws->on('close', function ($ws, $fd) {
