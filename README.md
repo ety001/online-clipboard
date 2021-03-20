@@ -1,3 +1,68 @@
+# Online Clipboard
+
+## Public Service
+
+I have already built a public service.
+You can just visit or use this tool by below ways.
+
+### Web Client
+[https://oc.to0l.cn](https://oc.to0l.cn)
+
+### Android App
+[http://fir.akawa.ink/onlinecb](http://fir.akawa.ink/onlinecb)
+
+### iOS App
+[https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770)
+
+### Cli Way
+```
+# Path: https://oc.to0l.cn/ws/[clipname]/[password]
+
+# Send Case（clipbord name and password are all **public**）
+curl https://oc.to0l.cn/ws/public/public -d "this is a test message"
+curl https://oc.to0l.cn/ws/public/public -d "$(cat /etc/v2ray/config.json)"
+
+# Receive Case（clipbord name and password are all **public**）
+curl https://oc.to0l.cn/ws/public/public
+```
+> Notation: The cli way only supports https protocol.
+
+
+## Deploy
+```
+# Get Code
+git clone https://github.com/ety001/online-clipboard.git
+
+# Build a docker image
+cd online-clipboard
+docker build -t online_clipboard .
+
+# Create a private docker network
+docker network create --gateway "172.20.0.1" --subnet "172.20.0.0/24" oc
+
+# Run a redis database
+docker run -itd \
+  --name db \
+  -v /data/redis_data:/data \
+  --network oc \
+  --ip "172.20.0.2" \
+  redis:alpine3.13
+
+# Run the service
+docker run -itd \
+  -p 80:80 -p 8080:8080 \
+  --name online_clipboard \
+  --network oc --ip "172.20.0.3" \
+  -e "DB_PORT_6379_TCP_ADDR=172.20.0.2" \
+  -e "DB_PORT_6379_TCP_PORT=6379" \
+  online_clipboard
+```
+
+## The App Source Code
+[https://github.com/ety001/oc_flutter](https://github.com/ety001/oc_flutter)
+
+---
+
 # 在线剪切板
 
 ## 公共服务
