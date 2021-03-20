@@ -4,7 +4,8 @@ WORKDIR /app
 RUN apk --no-cache add nodejs git
 RUN cd /app && git clone https://github.com/ety001/online-clipboard.git && \
     cd online-clipboard && \
-    git fetch origin fe && git checkout fe \
+    git fetch origin fe && \
+    git checkout fe && \
     npm install && \
     npm run build
 
