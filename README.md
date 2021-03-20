@@ -1,4 +1,4 @@
-# Online Clipboard
+# 在线剪切板
 
 ## 公共服务
 
@@ -16,14 +16,17 @@
 ### cli端
 ```
 # Cli端使用说明
-# 接口地址: https://oc-server.to0l.cn/[clipname]/[password]
+
+# 接口地址: https://oc.to0l.cn/ws/[clipname]/[password]
+
 # 发送示例（剪切板名和密码都是 public）
-curl https://oc-server.to0l.cn/public/public -d "content=this is a test message"
-curl https://oc-server.to0l.cn/public/public -d "content=$(cat /etc/v2ray/config.json)"
+curl https://oc.to0l.cn/ws/public/public -d "this is a test message"
+curl https://oc.to0l.cn/ws/public/public -d "$(cat /etc/v2ray/config.json)"
+
 # 接收示例（剪切板名和密码都是 public）
-curl https://oc-server.to0l.cn/public/public
+curl https://oc.to0l.cn/ws/public/public
 ```
-> 注意 cli 端只支持 https，发送的时候的变量名是 content
+> 注意 cli 端只支持 https
 
 
 ## 部署

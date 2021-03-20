@@ -127,8 +127,7 @@ $ws->on('request', function($request, $response) {
 
         switch($server['request_method']) {
             case 'POST':
-                $postData = $request->post;
-                $content = $postData['content'];
+                $content = $request->rawContent;
                 save_cb($redis, $hash, $content);
                 publish($redis, $hash, $ws, $content);
                 var_dump('content from cli');
