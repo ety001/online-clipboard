@@ -11,7 +11,7 @@ RUN cd /app && git clone https://github.com/ety001/online-clipboard.git && \
 
 FROM ety001/swoole:latest
 MAINTAINER ety001 <ety001@domyself.me>
-RUN apk --no-cache add php7-redis nginx
+RUN apk --no-cache add php7-redis nginx supervisor
 ADD . /source
 ADD docker-conf/default.conf /etc/nginx/conf.d/default.conf
 ADD docker-conf/supervisord.conf /etc/supervisord.conf
