@@ -11,7 +11,7 @@
 [http://fir.akawa.ink/onlinecb](http://fir.akawa.ink/onlinecb)
 
 ### iOS App
-[https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770) 
+[https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770](https://apps.apple.com/us/app/%E7%BD%91%E7%BB%9C%E5%89%AA%E5%88%87%E6%9D%BF/id1485974770)
 
 ### cli端
 ```
@@ -41,15 +41,15 @@ docker network create --gateway "172.20.0.1" --subnet "172.20.0.0/24" oc
 #运行redis
 docker run -itd --name db --network oc --ip "172.20.0.2" microbox/redis
 
-#运行服务端
-docker run -itd -p 8080:8080 --name online_clipboard \
+#运行服务端和前端
+docker run -itd \
+  -p 80:80 -p 8080:8080 \
+  --name online_clipboard \
   --network oc --ip "172.20.0.3" \
   -e "DB_PORT_6379_TCP_ADDR=172.20.0.2" \
   -e "DB_PORT_6379_TCP_PORT=6379" \
   ety001/online_clipboard
 
-#获取前端代码
-git checkout gh-pages
 ```
 
 ## App源码
