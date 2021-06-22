@@ -179,6 +179,7 @@ extension=swoole.so
 
 ### 修改config并运行server端
 `git clone https://github.com/ety001/online-clipboard.git`
+
 `php server.php`
 
 
