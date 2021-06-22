@@ -76,12 +76,13 @@ docker run -itd \
 
 `php info.php | grep php.ini`
 
-If there has no reids extension displayed
+If there has no reids or swoole extension displayed
 
 `vim /etc/php/7.3/cli/php.ini` and add
 
 ```sh
 extension=redis.so
+extension=swoole.so
 ```
 
 ### Edit Configuation & Run
@@ -173,6 +174,7 @@ docker run -itd \
 
 ```sh
 extension=redis.so
+extension=swoole.so
 ```
 
 ### 修改config并运行server端
