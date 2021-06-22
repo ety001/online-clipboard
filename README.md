@@ -58,6 +58,37 @@ docker run -itd \
   online_clipboard
 ```
 
+## Manual Deploy
+### Prepare Env
+`apt update`
+
+`apt install redis-server php-pear php7.3-dev php7.3-xml redis-server`
+
+`pecl install swoole redis`
+
+### Check Service
+`php -m | grep redis`
+
+`php -m | grep swoole`
+
+### Enable Redis in PHP
+`echo "<?php phpinfo();" > info.php`
+
+`php info.php | grep php.ini`
+
+If there has no reids extension displayed
+
+`vim /etc/php/7.3/cli/php.ini` and add
+
+```sh
+extension=redis.so
+```
+
+### Edit Configuation & Run
+`git clone https://github.com/ety001/online-clipboard.git`
+`php server.php`
+
+
 ## The App Source Code
 [https://github.com/ety001/oc_flutter](https://github.com/ety001/oc_flutter)
 
@@ -119,6 +150,35 @@ docker run -itd \
   ety001/online_clipboard
 
 ```
+
+## 手动部署
+### 安装环境
+`apt update`
+
+`apt install redis-server php-pear php7.3-dev php7.3-xml redis-server`
+
+`pecl install swoole redis`
+
+### 检查
+`php -m | grep redis`
+
+`php -m | grep swoole`
+
+### 检查如果没有开启则修改配置
+`echo "<?php phpinfo();" > info.php`
+
+`php info.php | grep php.ini`
+
+`vim /etc/php/7.3/cli/php.ini` 在里面添加
+
+```sh
+extension=redis.so
+```
+
+### 修改config并运行server端
+`git clone https://github.com/ety001/online-clipboard.git`
+`php server.php
+
 
 ## App源码
 
