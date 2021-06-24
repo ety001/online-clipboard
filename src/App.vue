@@ -134,13 +134,11 @@ export default {
     }
   },
   created(){
-    if(document.location.hash !== "" || document.location.hash !== "#/"){
-      var arr = document.location.hash.split("/");
-      this.cbName = arr[1];
-      this.cbPass = arr[2];
-      if(this.cbName !== undefined && this.cbPass !== undefined) {
-      	this.login();
-      }
+    this.doLogin();
+    let that = this;
+    window.onhashchange=function(event){
+      window.location.href=event.newURL;
+      that.doLogin();
     }
   },
   methods: {
@@ -154,6 +152,16 @@ export default {
       this.isLogining = true;
       this.loginBtnDisable = true;
       document.location.hash = "/" + this.cbName + "/" + this.cbPass;
+    },
+    doLogin() {
+      if(document.location.hash !== "" || document.location.hash !== "#/"){
+        var arr = document.location.hash.split("/");
+        this.cbName = arr[1];
+        this.cbPass = arr[2];
+        if(this.cbName !== undefined && this.cbPass !== undefined) {
+          this.login();
+        }
+      }
     },
     onopen() {
       this.msg = [];
