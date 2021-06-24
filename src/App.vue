@@ -136,14 +136,15 @@ export default {
   created(){
     this.doLogin();
     let that = this;
-    window.onhashchange=function(event){
-      window.location.href=event.newURL;
+    window.onhashchange = function(event){
+      window.location.href = event.newURL;
       that.doLogin();
     }
   },
   methods: {
     login() {
       if (this.cbName === null || this.cbPass === null) return;
+      if(this.ws) this.ws.close();
       this.ws = new window.WebSocket(`${this.wsUrl}/${this.cbName}/${this.cbPass}`);
       this.ws.onopen = this.onopen;
       this.ws.onmessage = this.onmessage;
