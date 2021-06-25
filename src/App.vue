@@ -238,5 +238,17 @@ export default {
     margin-top: 20px;
     color: #666;
   }
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+    .board {
+      background-color: #333;
+    }
+    .sub-title {
+      color: #ccc;
+    }
+  }
 </style>
 
